@@ -1,0 +1,49 @@
+LIBRARY ieee;  
+USE ieee.std_logic_1164.ALL;  
+USE ieee.std_logic_arith.ALL;  
+USE ieee.std_logic_unsigned.ALL; 
+ENTITY reset_circuit IS 
+		PORT ( 
+		Reset : IN STD_LOGIC; 
+		Clk :  IN STD_LOGIC;  
+		Enable_PD :   OUT STD_LOGIC;  
+		Clr_PC :     OUT STD_LOGIC ); 
+		END reset_circuit; 
+
+ARCHITECTURE description OF reset_circuit IS  
+--you fill in what goes here. 
+TYPE STATETYPE IS (Istate, Rstate);
+ SIGNAL present_state: STATETYPE;
+TYPE COUNTER IS (w1,w2,w3,w4,w5,w6);
+ SIGNAL count: COUNTER;
+BEGIN
+ PROCESS (Reset, Clk)begin
+	if rising_edge(clk) then
+	if(Reset = '1') then
+		present_state <= Rstate;
+		count <= w1;
+		enable_PD <= '0';
+		Clr_PC <= '1';
+	elsif(Reset = '0' and present_state = Istate) then
+		enable_PD <= '1';
+		Clr_PC <= '0';
+	end if;
+	end if;
+	if rising_edge(clk) then
+		if(count = w1) then
+			count <= w2;
+		elsif(count = w2) then
+			count <= w3;
+		elsif(count = w3) then
+			count <= w4;
+		elsif(count =w4) then
+			count <= w5;
+		elsif(count =w5) then
+			count <= w6;
+		elsif(count = w6) then
+			count <= w1;
+			present_state <= Istate;
+		end if;
+	end if;
+end process;
+END description; 

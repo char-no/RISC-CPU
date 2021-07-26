@@ -1,0 +1,9 @@
+.DS_Store
+CPU_Test_Sim.mif
+CPU_TEST_Sim.qpf
+CPU_Test_Sim.qsf
+CPU_Test_sim.qws
+CPU_Test_Sim
+simulation/
+db/
+incremental_db/
